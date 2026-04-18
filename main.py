@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 import argparse
 
 
@@ -9,6 +10,9 @@ def main():
     parser = argparse.ArgumentParser(description="AI Agent")
     parser.add_argument("user_prompt", type=str, help="User Prompt")
     args = parser.parse_args()
+
+    #Stores the previous messages
+    messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
 
     #Loads API key
     load_dotenv()
@@ -20,7 +24,7 @@ def main():
     
     #Connects with gemini and prompts it
     client = genai.Client(api_key=api_key)
-    content = client.models.generate_content(model="gemini-2.5-flash", contents=args.user_prompt)
+    content = client.models.generate_content(model="gemini-2.5-flash", contents=messages)
 
     #Gets token usage
     if content.usage_metadata == None:
