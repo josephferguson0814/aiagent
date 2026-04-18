@@ -9,6 +9,7 @@ def main():
     #Uses argparse to take an argument from the command line for the prompt
     parser = argparse.ArgumentParser(description="AI Agent")
     parser.add_argument("user_prompt", type=str, help="User Prompt")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
     #Stores the previous messages
@@ -32,10 +33,10 @@ def main():
     prompt_token_usage = content.usage_metadata.prompt_token_count
     candidate_token_usage = content.usage_metadata.candidates_token_count
 
-    print(f"User prompt: {args.user_prompt}")
-    print(f"Prompt tokens: {prompt_token_usage}")
-    print(f"Response tokens: {candidate_token_usage}")
-    print("Response:")
+    if args.verbose == True:
+        print(f"User prompt: {args.user_prompt}")
+        print(f"Prompt tokens: {prompt_token_usage}")
+        print(f"Response tokens: {candidate_token_usage}")
     print(content.text)
 
     
